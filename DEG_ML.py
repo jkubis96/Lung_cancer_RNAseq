@@ -644,9 +644,9 @@ clusters = np.array(pred.as_data_frame())
 ### DEseq reactoma
 
 man_deseq = pd.read_csv('results/DESEQ_male.csv')
-man_deseq = man_dseq[man_dseq['pvalue'] < 0.05]
-man_deseq = man_dseq.sort_values(by = ['pvalue'], ascending = True)
-man_deseq = man_dseq[0:1000]
+man_deseq = man_deseq[man_deseq['pvalue'] < 0.05]
+man_deseq = man_deseq.sort_values(by = ['pvalue'], ascending = True)
+man_deseq = man_deseq[0:1000]
 man_deseq['path'] = None
 man_deseq.index = man_deseq['labels']
 
@@ -676,8 +676,8 @@ import seaborn
 
 
 
-df_tmp_up = man_dseq[man_dseq['log2FoldChange'] > 0]
-df_tmp_up = man_dseq[man_dseq['padj'] < 0.05]
+df_tmp_up = man_deseq[man_deseq['log2FoldChange'] > 0]
+df_tmp_up = df_tmp_up[df_tmp_up['padj'] < 0.05]
 
 ab = []
 for i in tqdm(df_tmp_up['path'][df_tmp_up['path'] != str(['None'])]):
@@ -698,8 +698,8 @@ plt.close()
         
 
 
-df_tmp_down = df_tmp[df_tmp['log(FC)'] < 0]
-df_tmp_down = df_tmp_down[df_tmp_down['FDR'] < 0.05]
+df_tmp_down = man_deseq[man_deseq['log2FoldChange'] < 0]
+df_tmp_down = df_tmp_down[df_tmp_down['padj'] < 0.05]
 
 ab = []
 for i in tqdm(df_tmp_down['path'][df_tmp_down['path'] != str(['None'])]):
@@ -758,7 +758,7 @@ import seaborn
 
 
 df_tmp_up = woman_deseq[woman_deseq['log2FoldChange'] > 0]
-df_tmp_up = woman_deseq[woman_deseq['padj'] < 0.05]
+df_tmp_up = df_tmp_up[df_tmp_up['padj'] < 0.05]
 
 ab = []
 for i in tqdm(df_tmp_up['path'][df_tmp_up['path'] != str(['None'])]):
@@ -779,8 +779,8 @@ plt.close()
         
 
 
-df_tmp_down = df_tmp[df_tmp['log(FC)'] < 0]
-df_tmp_down = df_tmp_down[df_tmp_down['FDR'] < 0.05]
+df_tmp_down = woman_deseq[woman_deseq['log2FoldChange'] < 0]
+df_tmp_down = df_tmp_down[df_tmp_down['padj'] < 0.05]
 
 ab = []
 for i in tqdm(df_tmp_down['path'][df_tmp_down['path'] != str(['None'])]):
@@ -797,4 +797,4 @@ plt.ylabel('Number of paths')
 plt.title('Pathways')
 plt.savefig('results/path_DESEQwoman_down.png',  bbox_inches='tight')
 plt.clf()
-plt.close()
+plt.close()     
